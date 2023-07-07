@@ -21,7 +21,7 @@ function transactionRoute(fastify, options, done) {
   });
 
   // GET ALL THE USERS TRANSACTIONS
-  fastify.get("/transactions/:id", async (req, reply) => {
+  fastify.post("/transactions", async (req, reply) => {
     await transactionHandler.getTransactionById(req, reply);
   });
 

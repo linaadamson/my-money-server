@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize, Op, DataTypes } = require("sequelize");
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
@@ -54,6 +54,10 @@ const Transaction = sequelize.define("Transaction", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  createdAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
 });
 
-module.exports = { User, Transaction };
+module.exports = { sequelize, Op, User, Transaction };

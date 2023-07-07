@@ -1,4 +1,4 @@
-const { Transaction } = require("./modelInstances");
+const { sequelize, Op, Transaction } = require("./modelInstances");
 
 class TransactionModel {
   constructor() {}
@@ -13,11 +13,21 @@ class TransactionModel {
     return transaction;
   }
 
-  async findByUserId(id) {
+  async findByUserId(id, day) {
     const transaction = await Transaction.findAll({
       where: {
-        user_id: id,
+        [Op.and]: [
+          { user_id: id },
+          day
+            ? {
+                where: sequelize.literal(
+                  `date(createdAt) >= NOW()  - INTERVAL ${day} day`
+                ),
+              }
+            : "",
+        ],
       },
+      order: [["createdAt", "DESC"]],
     });
 
     return transaction;

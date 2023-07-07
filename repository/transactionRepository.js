@@ -11,8 +11,8 @@ class TransactionRepository {
     );
     return transaction;
   }
-  async findByUserId(id) {
-    const transaction = await this.source.findByUserId(id);
+  async findByUserId(id, day) {
+    const transaction = await this.source.findByUserId(id, day);
     return transaction;
   }
 

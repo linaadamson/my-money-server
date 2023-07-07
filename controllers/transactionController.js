@@ -23,10 +23,10 @@ class TransactionController {
 
   // GET ALL TRANSACTIONS FOR A USER
   async getTransactionById(req, reply) {
-    let id = req.params.id;
+    const { id, day } = req.body;
 
     try {
-      const result = await this.transactionService.findByUserId(id);
+      const result = await this.transactionService.findByUserId(id, day);
       reply.status(200).send(result);
     } catch (err) {
       reply.status(500).send(err);
