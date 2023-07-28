@@ -5,11 +5,12 @@ class TransactionService {
     this.transactionRepo = new TransactionRepository(models.transactionModel);
   }
 
-  async createTransaction(user_id, name, amount) {
+  async createTransaction(user_id, name, amount, breakdown) {
     const transaction = await this.transactionRepo.createTransaction(
       user_id,
       name,
-      amount
+      amount,
+      breakdown
     );
     return transaction;
   }

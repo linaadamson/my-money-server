@@ -6,13 +6,16 @@ class TransactionController {
 
   // CREATE TRANSACTION FOR A USER
   async createTransaction(req, reply) {
-    const { user_id, name, amount } = req.body;
+    const { user_id, name, amount, breakdown } = req.body;
+
+    console.log(breakdown);
 
     try {
       const transaction = await this.transactionService.createTransaction(
         user_id,
         name,
-        amount
+        amount,
+        breakdown
       );
 
       reply.status(201).send(transaction);

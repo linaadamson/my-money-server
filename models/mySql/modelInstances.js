@@ -18,7 +18,6 @@ const User = sequelize.define("User", {
   },
   display_name: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   email: {
     type: DataTypes.STRING,
@@ -27,7 +26,6 @@ const User = sequelize.define("User", {
   },
   password_hash: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
 });
 
@@ -54,10 +52,35 @@ const Transaction = sequelize.define("Transaction", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  createdAt: {
-    type: DataTypes.DATE,
+});
+
+const Breakdown = sequelize.define("Breakdown", {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  transactionId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Transaction,
+      key: "id",
+    },
+  },
+  breakdown_name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  breakdown_amount: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 });
 
-module.exports = { sequelize, Op, User, Transaction };
+// ASSOCIATIONS
+Transaction.hasMany(Breakdown);
+Breakdown.belongsTo(Transaction);
+
+module.exports = { sequelize, Op, User, Transaction, Breakdown };

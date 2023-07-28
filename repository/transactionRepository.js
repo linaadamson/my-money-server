@@ -3,11 +3,12 @@ class TransactionRepository {
     this.source = new model();
   }
 
-  async createTransaction(user_id, name, amount) {
+  async createTransaction(user_id, name, amount, breakdown) {
     const transaction = await this.source.createTransaction(
       user_id,
       name,
-      amount
+      amount,
+      breakdown
     );
     return transaction;
   }
