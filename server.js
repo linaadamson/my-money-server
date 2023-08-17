@@ -27,6 +27,7 @@ fastify.register(require("@fastify/cors"), (instance) => {
 // DECLARE ROUTES
 fastify.register(require("./routes/auth"));
 fastify.register(require("./routes/transaction"));
+fastify.register(require("./routes/friend"));
 
 /**
  * Run the server!

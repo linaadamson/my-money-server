@@ -79,8 +79,50 @@ const Breakdown = sequelize.define("Breakdown", {
   },
 });
 
+const Friend = sequelize.define("Friend", {
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  senderId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: "id",
+    },
+  },
+  receiverId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: "id",
+    },
+  },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+});
+
 // ASSOCIATIONS
 Transaction.hasMany(Breakdown);
 Breakdown.belongsTo(Transaction);
+User.hasMany(Friend, {
+  foreignKey: {
+    name: "senderId",
+  },
+});
+Friend.belongsTo(User, {
+  as: "receiver",
+  foreignKey: "receiverId",
+});
+Friend.belongsTo(User, {
+  as: "sender",
+  foreignKey: "senderId",
+});
 
-module.exports = { sequelize, Op, User, Transaction, Breakdown };
+module.exports = { sequelize, Op, User, Transaction, Breakdown, Friend };

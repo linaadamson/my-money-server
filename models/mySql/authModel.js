@@ -6,11 +6,23 @@ class AuthModel {
   }
 
   async createUser(email, hash, displayName) {
-    const user = await User.create({
-      email: email,
-      password_hash: hash,
-      display_name: displayName,
+    const user = await User.findOne({
+      where: {
+        email: email,
+      },
     });
+
+    if (user) {
+      await user.update({ password_hash: hash, display_name: displayName });
+    }
+
+    if (!user) {
+      await User.create({
+        email: email,
+        password_hash: hash,
+        display_name: displayName,
+      });
+    }
 
     return user;
   }
