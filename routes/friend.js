@@ -1,15 +1,11 @@
-// REQUIRE THE MODELS
-const models = require("../models/mySql");
-
-// REQUIRE THE SERVICE
-const FriendService = require("../service/friendService");
+// CONTAINER SERVICE
+const di = require("../boostrap");
 
 // REQUIRE THE CONTROLLER
 const FriendController = require("../controllers/friendController");
 
 function authRoute(fastify, options, done) {
-  const friendService = new FriendService(models);
-  const friendHandler = new FriendController(fastify, friendService);
+  const friendHandler = new FriendController(fastify, di["FriendService"]);
 
   // INVITE FRIEND
   fastify.post("/invite", async (req, reply) => {

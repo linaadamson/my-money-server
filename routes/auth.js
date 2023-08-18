@@ -1,15 +1,11 @@
-// REQUIRE THE MODELS
-const models = require("../models/mySql");
-
-// REQUIRE THE SERVICE
-const AuthService = require("../service/authService");
+// CONTAINER SERVICE
+const di = require("../boostrap");
 
 // REQUIRE THE CONTROLLER
 const AuthController = require("../controllers/authController");
 
 function authRoute(fastify, options, done) {
-  const authService = new AuthService(models);
-  const authHandler = new AuthController(fastify, authService);
+  const authHandler = new AuthController(fastify, di["AuthService"]);
 
   // SIGN UP USER
   fastify.post("/signup", async (req, reply) => {
