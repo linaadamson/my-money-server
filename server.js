@@ -1,4 +1,6 @@
 require("dotenv").config();
+const containerService = require('./core/container')
+
 const fastify = require("fastify")({
   logger: true,
 });
@@ -24,11 +26,8 @@ fastify.register(require("@fastify/cors"), (instance) => {
   };
 });
 
-// DECLARE ROUTES
-fastify.register(require("./routes/auth"));
-fastify.register(require("./routes/transaction"));
-fastify.register(require("./routes/friend"));
-
+require('./boostrap')(fastify, containerService )
+require('./routes')(fastify, containerService)
 /**
  * Run the server!
  */

@@ -1,7 +1,7 @@
 class AuthController {
-  constructor(fastify, authService) {
-    this.authService = authService;
-    this.fastify = fastify;
+  constructor( di) {
+    this.authService = di.get('authService');
+    this.jwt = di.get('JWT');
   }
 
   async signUp(req, reply) {
@@ -13,7 +13,7 @@ class AuthController {
         password,
         displayName
       );
-      const token = this.fastify.jwt.sign(
+      const token = this.jwt.sign(
         { id: user.id },
         process.env.SECRET || "",
         { expiresIn: "7d" }
@@ -40,7 +40,7 @@ class AuthController {
       }
 
       console.log("password correct");
-      const token = this.fastify.jwt.sign(
+      const token = this.jwt.sign(
         { id: user.id },
         process.env.SECRET || "",
         {

@@ -1,3 +1,4 @@
+const container = require("./core/container");
 const models = require("./models/mySql");
 
 // SERVICES
@@ -5,7 +6,7 @@ const TransactionService = require("./service/transactionService");
 const FriendService = require("./service/friendService");
 const AuthService = require("./service/authService");
 
-function setupContainerService(fastify, container) {
+function setupContainerService(fastify) {
   // REGISTER SERVICES
   container.register("transactionService", () => {
     return new TransactionService(models, container);
@@ -20,9 +21,16 @@ function setupContainerService(fastify, container) {
   container.register('JWT', () => {
     return fastify.jwt
   })
-  return container
+
 }
 
 
 // RESOLVE AND EXPORT RESOLVED DEPENDENCIES
-module.exports = (fastify, containerService) => setupContainerService(fastify, containerService)
+module.exports = (fastify) => {
+  return container.resolve([
+    "TransactionService",
+    "FriendService",
+    "AuthService",
+    "JWT"
+  ]);
+}

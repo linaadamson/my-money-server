@@ -27,6 +27,12 @@ class Container {
 
     return resolvedDependencies;
   }
+    get(name) {
+    if (!this.dependencies[name]) {
+      throw new Error(`Dependency not found: ${name}`);
+    }
+    return this.dependencies[name];
+  }
 }
 
 module.exports = new Container();
