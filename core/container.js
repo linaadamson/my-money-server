@@ -27,9 +27,22 @@ class Container {
 
     return resolvedDependencies;
   }
+
+  get(name) {
+    if (!this.dependencies[name]) {
+      throw new Error(`Dependency not found: ${name}`);
+    }
+    return this.dependencies[name].call();
+  }
 }
 
 module.exports = new Container();
+
+// if (typeof dependency === "function") {
+//   this.dependencies[name] = dependency.call(dependency);
+// } else {
+//   this.dependencies[name] = dependency;
+// }
 
 // class Container {
 //   constructor() {

@@ -1,7 +1,10 @@
-class AuthController {
-  constructor(fastify, authService) {
-    this.authService = authService;
-    this.fastify = fastify;
+const BaseController = require("./baseController");
+
+class AuthController extends BaseController {
+  constructor() {
+    super();
+    this.authService = this.container.get("authService");
+    this.jwt = this.container.get("jwt");
   }
 
   async signUp(req, reply) {
@@ -13,11 +16,9 @@ class AuthController {
         password,
         displayName
       );
-      const token = this.fastify.jwt.sign(
-        { id: user.id },
-        process.env.SECRET || "",
-        { expiresIn: "7d" }
-      );
+      const token = this.jwt.sign({ id: user.id }, process.env.SECRET || "", {
+        expiresIn: "7d",
+      });
 
       reply.code(201).send({ token, displayName, id: user.id });
     } catch (err) {
@@ -40,13 +41,9 @@ class AuthController {
       }
 
       console.log("password correct");
-      const token = this.fastify.jwt.sign(
-        { id: user.id },
-        process.env.SECRET || "",
-        {
-          expiresIn: "7d",
-        }
-      );
+      const token = this.jwt.sign({ id: user.id }, process.env.SECRET || "", {
+        expiresIn: "7d",
+      });
       return reply
         .code(200)
         .send({ token, displayName: user.display_name, id: user.id });

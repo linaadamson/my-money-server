@@ -1,7 +1,9 @@
-class TransactionController {
-  constructor(fastify, transactionService) {
-    this.transactionService = transactionService;
-    this.fastify = fastify;
+const BaseController = require("./baseController");
+
+class TransactionController extends BaseController {
+  constructor() {
+    super();
+    this.transactionService = this.container.get("transactionService");
   }
 
   // CREATE TRANSACTION FOR A USER

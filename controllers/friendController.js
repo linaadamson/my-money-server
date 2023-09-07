@@ -1,7 +1,9 @@
-class FriendController {
-  constructor(fastify, friendService) {
-    this.friendService = friendService;
-    this.fastify = fastify;
+const BaseController = require("./baseController");
+
+class FriendController extends BaseController {
+  constructor() {
+    super();
+    this.friendService = this.container.get("friendService");
   }
 
   async invite(req, reply) {

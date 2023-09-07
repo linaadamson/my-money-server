@@ -1,11 +1,8 @@
-// CONTAINER SERVICE
-const di = require("../boostrap");
-
 // REQUIRE THE CONTROLLER
 const AuthController = require("../controllers/authController");
 
 function authRoute(fastify, options, done) {
-  const authHandler = new AuthController(fastify, di["AuthService"]);
+  const authHandler = new AuthController();
 
   // SIGN UP USER
   fastify.post("/signup", async (req, reply) => {
