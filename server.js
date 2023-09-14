@@ -26,13 +26,15 @@ fastify.register(require("@fastify/cors"), (instance) => {
   };
 });
 
+console.log("routes");
+
 // BOOTSRTAP
 require("./boostrap")(fastify, containerService);
 
 // DECLARE ROUTES
-fastify.register(require("./routes/auth"));
-fastify.register(require("./routes/transaction"));
-fastify.register(require("./routes/friend"));
+fastify.register(require("./routes/auth")(containerService));
+fastify.register(require("./routes/transaction")(containerService));
+fastify.register(require("./routes/friend")(containerService));
 
 /**
  * Run the server!

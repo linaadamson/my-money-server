@@ -1,8 +1,8 @@
 const BaseController = require("./baseController");
 
 class FriendController extends BaseController {
-  constructor() {
-    super();
+  constructor(container) {
+    super(container);
     this.friendService = this.container.get("friendService");
   }
 
@@ -14,7 +14,7 @@ class FriendController extends BaseController {
 
       reply.code(201).send(user);
     } catch (err) {
-      reply.status(500).send(err);
+      reply.send(err);
     }
   }
 
@@ -25,7 +25,7 @@ class FriendController extends BaseController {
       const invitations = await this.friendService.sentInvites(id);
       reply.status(200).send(invitations);
     } catch (err) {
-      reply.status(500).send(err);
+      reply.send(err);
     }
   }
 
@@ -36,7 +36,7 @@ class FriendController extends BaseController {
       const invitations = await this.friendService.receivedInvites(id);
       reply.status(200).send(invitations);
     } catch (err) {
-      reply.status(500).send(err);
+      reply.send(err);
     }
   }
 
@@ -47,7 +47,7 @@ class FriendController extends BaseController {
       const invitations = await this.friendService.getInviteById(id);
       reply.status(200).send(invitations);
     } catch (err) {
-      reply.status(500).send(err);
+      reply.send(err);
     }
   }
 
@@ -58,7 +58,7 @@ class FriendController extends BaseController {
       const friend = await this.friendService.updateStatusById(inviteId);
       reply.status(200).send(friend);
     } catch (err) {
-      reply.status(500).send(err);
+      reply.send(err);
     }
   }
 
@@ -69,7 +69,7 @@ class FriendController extends BaseController {
       const friends = await this.friendService.getAllFriends(id);
       reply.status(200).send(friends);
     } catch (err) {
-      reply.status(500).send(err);
+      reply.send(err);
     }
   }
 }

@@ -1,8 +1,8 @@
 // CONTAINER SERVICE
-const container = require("../core/container");
+// const container = require("../core/container");
 
 class BaseController {
-  constructor() {
+  constructor(container) {
     this.container = container;
   }
 }

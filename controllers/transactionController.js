@@ -1,8 +1,8 @@
 const BaseController = require("./baseController");
 
 class TransactionController extends BaseController {
-  constructor() {
-    super();
+  constructor(container) {
+    super(container);
     this.transactionService = this.container.get("transactionService");
   }
 

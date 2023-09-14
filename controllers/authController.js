@@ -1,10 +1,10 @@
 const BaseController = require("./baseController");
 
 class AuthController extends BaseController {
-  constructor() {
-    super();
+  constructor(container) {
+    super(container);
     this.authService = this.container.get("authService");
-    this.jwt = this.container.get("jwt");
+    this.jwtService = this.container.get("jwtService");
   }
 
   async signUp(req, reply) {
@@ -16,9 +16,13 @@ class AuthController extends BaseController {
         password,
         displayName
       );
-      const token = this.jwt.sign({ id: user.id }, process.env.SECRET || "", {
-        expiresIn: "7d",
-      });
+      const token = this.jwtService.sign(
+        { id: user.id },
+        process.env.SECRET || "",
+        {
+          expiresIn: "7d",
+        }
+      );
 
       reply.code(201).send({ token, displayName, id: user.id });
     } catch (err) {
@@ -41,9 +45,13 @@ class AuthController extends BaseController {
       }
 
       console.log("password correct");
-      const token = this.jwt.sign({ id: user.id }, process.env.SECRET || "", {
-        expiresIn: "7d",
-      });
+      const token = this.jwtService.sign(
+        { id: user.id },
+        process.env.SECRET || "",
+        {
+          expiresIn: "7d",
+        }
+      );
       return reply
         .code(200)
         .send({ token, displayName: user.display_name, id: user.id });

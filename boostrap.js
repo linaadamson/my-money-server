@@ -4,6 +4,7 @@ const models = require("./models/mySql");
 const TransactionService = require("./service/transactionService");
 const FriendService = require("./service/friendService");
 const AuthService = require("./service/authService");
+const JwtService = require("./service/jwtService");
 
 function setupContainerService(fastify, container) {
   // REGISTER SERVICES
@@ -16,8 +17,8 @@ function setupContainerService(fastify, container) {
   container.register("authService", () => {
     return new AuthService(models, container);
   });
-  container.register("jwt", () => {
-    return fastify.jwt;
+  container.register("jwtService", () => {
+    return new JwtService(fastify, container);
   });
   return container;
 }
