@@ -1,5 +1,6 @@
 require("dotenv").config();
 const containerService = require("./core/container");
+const Exception = require("./utils/exception");
 
 const fastify = require("fastify")({
   logger: true,
@@ -7,6 +8,8 @@ const fastify = require("fastify")({
 fastify.register(require("@fastify/jwt"), {
   secret: process.env.SECRET,
 });
+
+fastify.register(require("fastify-jsend"));
 
 // REMOVE CORS
 fastify.register(require("@fastify/cors"), (instance) => {
@@ -35,6 +38,16 @@ require("./boostrap")(fastify, containerService);
 fastify.register(require("./routes/auth")(containerService));
 fastify.register(require("./routes/transaction")(containerService));
 fastify.register(require("./routes/friend")(containerService));
+
+// MIDDLEWARE FOR ERROR
+fastify.setErrorHandler((error, request, reply) => {
+  if (error instanceof Exception) {
+    reply.jsendError(Error, { code: error.statusCode, message: error.message });
+  } else {
+    // Handle other exceptions or errors
+    reply.jsendError(Error, { code: 500, message: "Internal Server Error" });
+  }
+});
 
 /**
  * Run the server!

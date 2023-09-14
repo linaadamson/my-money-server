@@ -18,7 +18,7 @@
     "bcrypt": "^5.1.0",
     "dotenv": "^16.3.1",
     "fastify": "^4.17.0",
-    "fastify-plugin": "^4.5.0",
+    "fastify-jsend": "^1.0.2",
     "nodemailer": "^6.9.4",
     "sequelize": "^6.32.1"
   }

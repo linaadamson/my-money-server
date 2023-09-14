@@ -3,7 +3,8 @@ const BaseController = require("./baseController");
 class FriendController extends BaseController {
   constructor(container) {
     super(container);
-    this.friendService = this.container.get("friendService");
+    this.friendService = this.container.get("friendService")();
+    this.exception = this.container.get("exception");
   }
 
   async invite(req, reply) {
@@ -11,10 +12,9 @@ class FriendController extends BaseController {
 
     try {
       const user = await this.friendService.inviteFriend(email, id);
-
-      reply.code(201).send(user);
+      return reply.jsendSuccess({ user });
     } catch (err) {
-      reply.send(err);
+      throw this.exception("An issue occured");
     }
   }
 
@@ -23,9 +23,9 @@ class FriendController extends BaseController {
 
     try {
       const invitations = await this.friendService.sentInvites(id);
-      reply.status(200).send(invitations);
+      return reply.jsendSuccess({ invites: [...invitations] });
     } catch (err) {
-      reply.send(err);
+      throw this.exception("An issue occured");
     }
   }
 
@@ -34,9 +34,10 @@ class FriendController extends BaseController {
 
     try {
       const invitations = await this.friendService.receivedInvites(id);
-      reply.status(200).send(invitations);
+
+      return reply.jsendSuccess({ invites: [...invitations] });
     } catch (err) {
-      reply.send(err);
+      throw this.exception("An issue occured");
     }
   }
 
@@ -44,10 +45,10 @@ class FriendController extends BaseController {
     let id = req.params.id;
 
     try {
-      const invitations = await this.friendService.getInviteById(id);
-      reply.status(200).send(invitations);
+      const invite = await this.friendService.getInviteById(id);
+      return reply.jsendSuccess({ invite });
     } catch (err) {
-      reply.send(err);
+      throw this.exception("An issue occured");
     }
   }
 
@@ -56,9 +57,10 @@ class FriendController extends BaseController {
 
     try {
       const friend = await this.friendService.updateStatusById(inviteId);
-      reply.status(200).send(friend);
+
+      return reply.jsendSuccess({ friend });
     } catch (err) {
-      reply.send(err);
+      throw this.exception("An issue occured");
     }
   }
 
@@ -67,9 +69,10 @@ class FriendController extends BaseController {
 
     try {
       const friends = await this.friendService.getAllFriends(id);
-      reply.status(200).send(friends);
+
+      return reply.jsendSuccess({ result: [...friends] });
     } catch (err) {
-      reply.send(err);
+      throw this.exception("An issue occured");
     }
   }
 }

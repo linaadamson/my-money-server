@@ -3,7 +3,8 @@ const BaseController = require("./baseController");
 class TransactionController extends BaseController {
   constructor(container) {
     super(container);
-    this.transactionService = this.container.get("transactionService");
+    this.transactionService = this.container.get("transactionService")();
+    this.exception = this.container.get("exception");
   }
 
   // CREATE TRANSACTION FOR A USER
@@ -20,9 +21,9 @@ class TransactionController extends BaseController {
         breakdown
       );
 
-      reply.status(201).send(transaction);
+      return reply.jsendSuccess({ transaction });
     } catch (err) {
-      reply.status(500).send(err);
+      throw this.exception("An issue occured");
     }
   }
 
@@ -32,9 +33,10 @@ class TransactionController extends BaseController {
 
     try {
       const result = await this.transactionService.findByUserId(id, day);
-      reply.status(200).send(result);
+
+      return reply.jsendSuccess({ result: [...result] });
     } catch (err) {
-      reply.status(500).send(err);
+      throw this.exception("An issue occured");
     }
   }
 
@@ -44,9 +46,10 @@ class TransactionController extends BaseController {
 
     try {
       const result = await this.transactionService.deleteTransactionById(id);
-      reply.status(200).send(result);
+
+      return reply.jsendSuccess({ result });
     } catch (err) {
-      reply.status(500).send(err);
+      throw this.exception("An issue occured");
     }
   }
 }
