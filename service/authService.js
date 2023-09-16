@@ -17,12 +17,10 @@ class AuthService {
     const user = await this.authRepo.findByEmail(email);
 
     if (user === null) {
-      console.log("incorrect email address!");
       return 404;
     }
 
     if (!bcrypt.compareSync(password, user.password_hash)) {
-      console.log("Password incorrect");
       return 401;
     }
 

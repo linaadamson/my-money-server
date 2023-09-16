@@ -31,7 +31,7 @@ class AuthController extends BaseController {
         id: user.id,
       });
     } catch (err) {
-      console.log(err);
+  
       throw this.exception("An issue occured");
     }
   }
@@ -50,8 +50,6 @@ class AuthController extends BaseController {
         return reply.jsendError({ code: 401, message: "Password incorrect" });
       }
 
-      console.log("password correct");
-
       if (user) {
         const token = await this.jwtService.sign(
           { id: user.id },
@@ -68,7 +66,6 @@ class AuthController extends BaseController {
         });
       }
     } catch (err) {
-      console.log(err);
       throw this.exception("An issue occured");
     }
   }

@@ -27,7 +27,6 @@ class FriendService {
   async inviteFriend(email, id) {
     const { user, friend } = await this.friendRepo.inviteFriend(email, id);
 
-    console.log(process.env.GMAIL_PASS);
 
     const html = `<h2>myMoney</h2> 
                 <p>You have been invited to join the myMoney app </p>
@@ -41,7 +40,6 @@ class FriendService {
       html: html,
     });
 
-    console.log(info.messageId);
 
     return user;
   }

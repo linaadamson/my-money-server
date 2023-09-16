@@ -29,7 +29,6 @@ fastify.register(require("@fastify/cors"), (instance) => {
   };
 });
 
-console.log("routes");
 
 // BOOTSRTAP
 require("./boostrap")(fastify, containerService);

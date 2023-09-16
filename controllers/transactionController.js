@@ -11,8 +11,6 @@ class TransactionController extends BaseController {
   async createTransaction(req, reply) {
     const { user_id, name, amount, breakdown } = req.body;
 
-    console.log(breakdown);
-
     try {
       const transaction = await this.transactionService.createTransaction(
         user_id,
