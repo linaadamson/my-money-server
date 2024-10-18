@@ -1,2 +1,2 @@
 # my-money-server
- A fastify server for a web application
+ A Node js backend built for a web application that allows users to save and track their transactions.

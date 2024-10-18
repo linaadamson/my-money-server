@@ -11,25 +11,6 @@ fastify.register(require("@fastify/jwt"), {
 
 fastify.register(require("fastify-jsend"));
 
-// REMOVE CORS
-fastify.register(require("@fastify/cors"), (instance) => {
-  return (req, callback) => {
-    const corsOptions = {
-      // This is NOT recommended for production as it enables reflection exploits
-      origin: true,
-    };
-
-    // do not include CORS headers for requests from localhost
-    if (/^localhost$/m.test(req.headers.origin)) {
-      corsOptions.origin = false;
-    }
-
-    // callback expects two parameters: error and options
-    callback(null, corsOptions);
-  };
-});
-
-
 // BOOTSRTAP
 require("./boostrap")(fastify, containerService);
 
@@ -43,7 +24,6 @@ fastify.setErrorHandler((error, request, reply) => {
   if (error instanceof Exception) {
     reply.jsendError(Error, { code: error.statusCode, message: error.message });
   } else {
-    // Handle other exceptions or errors
     reply.jsendError(Error, { code: 500, message: "Internal Server Error" });
   }
 });

@@ -1,20 +1,10 @@
 const FriendRepository = require("../repository/friendRepository");
 const nodemailer = require("nodemailer");
 
-// const transporter = nodemailer.createTransport({
-//   host: "smtp.gmail.com",
-//   port: 465,
-//   secure: true,
-//   auth: {
-//     user: "adamsonlina@gmail.com",
-//     pass: process.env.GMAIL_PASS,
-//   },
-// });
-
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "adamsonlina@gmail.com",
+    user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_PASS,
   },
 });
@@ -27,19 +17,17 @@ class FriendService {
   async inviteFriend(email, id) {
     const { user, friend } = await this.friendRepo.inviteFriend(email, id);
 
-
     const html = `<h2>myMoney</h2> 
                 <p>You have been invited to join the myMoney app </p>
                 <a href="http://localhost:3001/invite/${friend.id}">View Invitation</a>
                 `;
 
     const info = await transporter.sendMail({
-      from: " myMoney <adamsonlina@gmail.com>", // sender address
-      to: user.email, // list of receivers
-      subject: "Invite to myMoney", // Subject line
+      from: `myMoney <${process.env.GMAIL_USER}>`,
+      to: user.email,
+      subject: "Invite to myMoney",
       html: html,
     });
-
 
     return user;
   }
